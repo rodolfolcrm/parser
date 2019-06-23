@@ -7,6 +7,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.io.FileNotFoundException;
+
 @RunWith(MockitoJUnitRunner.class)
 public class ParserShould {
 	private static final String PATH_TO_FILE = "/path/to/file";
@@ -22,7 +24,7 @@ public class ParserShould {
 
 	@Test
 	public void
-	run_with_args() {
+	run_with_args() throws FileNotFoundException {
 		parser.run(PATH_TO_FILE, START_DATE, HOURLY, THRESHOLD);
 	}
 
