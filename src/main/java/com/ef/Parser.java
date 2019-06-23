@@ -26,7 +26,7 @@ public class Parser implements CommandLineRunner {
 	}
 
 	@Override
-	public void run(String... args) throws FileNotFoundException {
+	public void run(String... args) {
 		parserService.execute(ParserRequest.builder()
 				.pathToFile(args[0])
 				.startDate(LocalDateTime.parse(args[1], DateTimeFormatter.ofPattern("yyyy-MM-dd.HH:mm:ss")))

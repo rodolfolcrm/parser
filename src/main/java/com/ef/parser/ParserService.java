@@ -1,22 +1,26 @@
 package com.ef.parser;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 @Service
+@Slf4j
 public class ParserService {
 
-    private static final String UTF_8 = "UTF-8";
-
-    public void execute(ParserRequest parserRequest) throws FileNotFoundException {
-        try (Scanner sc = new Scanner(new File(parserRequest.getPathToFile()), UTF_8)) {
+    public void execute(ParserRequest parserRequest) {
+        try (Scanner sc = new Scanner(new File(parserRequest.getPathToFile()), StandardCharsets.UTF_8)) {
             while(sc.hasNextLine()) {
                 var line = sc.nextLine();
                 System.out.println(line);
             }
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+            throw new ParserException();
         }
     }
 }
