@@ -14,17 +14,28 @@ import static com.ef.parser.ParserRequest.Duration.DAYLI;
 public class ParserServiceTest {
 
     private static final String PATH_TO_FILE = "src/test/resources/access.log";
+    private static final String PATH_FILE_NOT_EXISTS = "/path/file/not/exists";
 
     @InjectMocks
     private ParserService parserService;
 
     @Test
     public void execute() {
-        parserService.execute(ParserRequest.builder()
-                .pathToFile(PATH_TO_FILE)
+        parserService.execute(parserRequest(PATH_TO_FILE));
+    }
+
+    @Test(expected = ParserException.class)
+    public void
+    execute_throws_ParserException_when_file_not_found() {
+        parserService.execute(parserRequest(PATH_FILE_NOT_EXISTS));
+    }
+
+    private ParserRequest parserRequest(String pathToFile) {
+        return ParserRequest.builder()
+                .pathToFile(pathToFile)
                 .startDate(LocalDateTime.of(2017, Month.JANUARY, 1, 13, 0))
                 .duration(DAYLI)
                 .threshold(100)
-                .build());
+                .build();
     }
 }

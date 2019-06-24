@@ -20,7 +20,7 @@ public class ParserService {
             }
         } catch (IOException e) {
             log.error(e.getMessage(), e);
-            throw new ParserException();
+            throw new ParserException(e);
         }
     }
 }
