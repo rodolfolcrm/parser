@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 @Service
@@ -16,11 +19,14 @@ public class ParserService {
 
     public void execute(ParserRequest parserRequest) {
         try (Scanner sc = new Scanner(new File(parserRequest.getPathToFile()), StandardCharsets.UTF_8)) {
+            var accessByIp = new HashMap<String, List<Access>>();
             while (sc.hasNextLine()) {
                 var line = sc.nextLine();
                 var access = convert(line.split(PIPE));
-                System.out.println(access);
+                var accessListByIp = accessByIp.computeIfAbsent(access.getIp(), k -> new ArrayList<>());
+                accessListByIp.add(access);
             }
+            System.out.println(accessByIp);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new ParserException(e);
