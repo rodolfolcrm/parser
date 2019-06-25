@@ -1,4 +1,4 @@
-package com.ef.parser;
+package com.ef.access;
 
 import lombok.Builder;
 import lombok.Data;
