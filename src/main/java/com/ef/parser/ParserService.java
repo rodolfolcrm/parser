@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.time.LocalDateTime.now;
 
 @Service
 @Slf4j
@@ -27,6 +30,8 @@ public class ParserService {
     }
 
     public void execute(ParserRequest parserRequest) {
+        log.info("running parser...");
+        var startTime = now();
         if (!StringUtils.isEmpty(parserRequest.getPathToFile())) {
             var accesses = accessService.loadFromFile(parserRequest.getPathToFile());
             accessService.saveAll(accesses);
@@ -35,7 +40,6 @@ public class ParserService {
         var blockedStats = accessService.findBlockedIpsBy(parserRequest.getStartDate(),
                 parserRequest.getEndDate(), parserRequest.getThreshold());
 
-        logBlockedIps(parserRequest, blockedStats);
 
         var blockedAccesses = blockedStats.stream()
                 .map(bs -> BlockedAccess.builder()
@@ -47,10 +51,17 @@ public class ParserService {
                 .collect(Collectors.toList());
 
         blockedAccessService.saveAll(blockedAccesses);
+
+        logBlockedIps(parserRequest, blockedStats);
+        log.info("parser finished in {} seconds", Duration.between(startTime, now()).toSeconds());
     }
 
     private void logBlockedIps(ParserRequest parserRequest, List<BlockedStats> blockedStats) {
-        log.info("BLOCKED_IPS for parameters startDate: {}, endDate: {}, threshold: {}, blockedStats: {}",
-                parserRequest.getStartDate(), parserRequest.getEndDate(), parserRequest.getThreshold(), blockedStats);
+        log.info("BLOCKED_IPS for parameters startDate: {}, endDate: {}, threshold: {}, totalBlocked: {}, blockedStats: {}",
+                parserRequest.getStartDate(),
+                parserRequest.getEndDate(),
+                parserRequest.getThreshold(),
+                blockedStats.size(),
+                blockedStats);
     }
 }
