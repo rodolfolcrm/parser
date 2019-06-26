@@ -1,4 +1,4 @@
-package com.ef.access;
+package com.ef.blockedaccess;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,21 +16,18 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 @Entity
-@IdClass(AccessId.class)
-public class Access {
-    @Id
-    @Column(nullable = false)
-    private LocalDateTime date;
+@IdClass(BlockedAccessId.class)
+public class BlockedAccess {
     @Id
     @Column(length = 15, nullable = false)
     private String ip;
     @Id
     @Column(nullable = false)
-    private String request;
-    @Id
-    @Column(length = 3, nullable = false)
-    private String status;
+    private LocalDateTime startDate;
     @Id
     @Column(nullable = false)
-    private String userAgent;
+    private LocalDateTime endDate;
+    @Id
+    @Column(nullable = false)
+    private Long accessCount;
 }

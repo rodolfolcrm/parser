@@ -1,6 +1,6 @@
 package com.ef.access;
 
-import com.ef.parser.ParserException;
+import com.ef.exceptions.ParserException;
 import com.ef.utils.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;

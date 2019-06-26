@@ -7,7 +7,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -27,11 +26,13 @@ public class Parser implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
-		parserService.execute(ParserRequest.builder()
-				.pathToFile(args[0])
-				.startDate(LocalDateTime.parse(args[1], DateTimeFormatter.ofPattern("yyyy-MM-dd.HH:mm:ss")))
-				.duration(ParserRequest.Duration.valueOf(args[2].toUpperCase()))
-				.threshold(Integer.valueOf(args[3]))
-				.build());
+		if (args.length > 0) {
+			parserService.execute(ParserRequest.builder()
+					.pathToFile(args[0])
+					.startDate(LocalDateTime.parse(args[1], DateTimeFormatter.ofPattern("yyyy-MM-dd.HH:mm:ss")))
+					.duration(ParserRequest.Duration.valueOf(args[2].toUpperCase()))
+					.threshold(Long.valueOf(args[3]))
+					.build());
+		}
 	}
 }

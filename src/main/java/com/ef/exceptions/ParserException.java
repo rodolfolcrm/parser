@@ -1,4 +1,4 @@
-package com.ef.parser;
+package com.ef.exceptions;
 
 public class ParserException extends RuntimeException {
 
