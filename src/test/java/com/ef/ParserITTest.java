@@ -28,6 +28,7 @@ public class ParserITTest {
     public void init() {
         if (!dataLoaded) {
             //optimize tests and run daily rule to load the file only once.
+            accessRepository.deleteAllInBatch();
             parser.run(PATH_TO_FILE, START_DATE_2017_01_01_00H, DAILY_VALUE, THRESHOLD_500);
             dataLoaded = true;
         }
