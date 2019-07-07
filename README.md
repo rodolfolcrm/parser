@@ -16,9 +16,9 @@ The goal of this tool is load a web server access log file to MySQL and checks i
 - daily command
     - java -jar target\parser-0.0.1-SNAPSHOT.jar "C:\Projects\parser\src\test\resources\access.log" "2017-01-01.00:00:00" "daily" "500"
 
--hourly command
+- hourly command
     - java -jar target\parser-0.0.1-SNAPSHOT.jar "C:\Projects\parser\src\test\resources\access.log" "2017-01-01.13:00:00" "hourly" "200"
-    - or
+        - or
     - java -jar target\parser-0.0.1-SNAPSHOT.jar "" "2017-01-01.13:00:00" "hourly" "200"
 
 ## Examples:
